@@ -3,7 +3,7 @@ import { Inter, IBM_Plex_Serif } from "next/font/google";
 import "./globals.css";
 
 const inter = Inter({
-  variable: "--font-inter-sans",
+  variable: "--font-inter",
   subsets: ["latin"],
 });
 
@@ -14,11 +14,8 @@ const ibmPlexSerif = IBM_Plex_Serif({
 });
 
 export const metadata: Metadata = {
-  title: "Horizon",
-  description: "Horizon is a modern banking platform for everyone.",
-  icons: {
-    icon: "/icon/logo.svg",
-  },
+  title: "Horizon Banking App",
+  description: "Best banking app in the world",
 };
 
 export default function RootLayout({

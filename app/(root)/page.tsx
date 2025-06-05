@@ -1,7 +1,7 @@
-import React from "react";
-
-const Home = () => {
-  return <div>Home</div>;
-};
-
-export default Home;
+export default function Home() {
+  return (
+    <>
+      <h1 className="text-bank-gradient">Home</h1>
+    </>
+  );
+}
