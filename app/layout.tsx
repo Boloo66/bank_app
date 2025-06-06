@@ -16,6 +16,10 @@ const ibmPlexSerif = IBM_Plex_Serif({
 export const metadata: Metadata = {
   title: "Horizon Banking App",
   description: "Best banking app in the world",
+  icons: {
+    icon: "/icons/logo.svg",
+    apple: "/apple-touch-icon.png",
+  },
 };
 
 export default function RootLayout({
