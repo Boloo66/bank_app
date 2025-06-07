@@ -33,15 +33,8 @@ export const authFormSchema = (type: string) =>
         : z.string().min(2, "State is required").max(2),
     postalCode:
       type === "sign-in"
-        ? z
-            .string()
-            .min(1, "Postal code is required")
-            .regex(/^\d{5}(-\d{4})?$/, "Invalid postal code format")
-            .optional()
-        : z
-            .string()
-            .min(1, "Postal code is required")
-            .regex(/^\d{5}(-\d{4})?$/, "Invalid postal code format"),
+        ? z.string().min(1, "Postal code is required").optional()
+        : z.string().min(1, "Postal code is required"),
     dateOfBirth:
       type === "sign-in"
         ? z

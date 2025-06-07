@@ -12,6 +12,7 @@ import CustomInput from "./CustomInput";
 import { authFormSchema } from "../lib/utils";
 import { Loader } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { signUp, signIn } from "../lib/actions/users.action";
 
 const AuthForm = ({ type }: { type: string }) => {
   const formSchema = authFormSchema(type);
@@ -20,12 +21,28 @@ const AuthForm = ({ type }: { type: string }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(false);
 
+  const defaultValues =
+    type === "sign-up"
+      ? {
+          email: "",
+          password: "",
+          firstName: "",
+          lastName: "",
+          address1: "",
+          city: "",
+          state: "",
+          postalCode: "",
+          dateOfBirth: "",
+          ssn: "",
+        }
+      : {
+          email: "",
+          password: "",
+        };
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      email: "",
-      password: "",
-    },
+    defaultValues,
   });
 
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
@@ -34,23 +51,28 @@ const AuthForm = ({ type }: { type: string }) => {
     try {
       //signup with appwrite and create plaid token
       if (type === "sign-up") {
-        // const newUser = await signUp(data);
-        // setUser(newUser);
+        const newUser = await signUp(data);
+        console.log("New User:", newUser);
+        setUser(newUser!);
       } else {
-        // const response = await SignIn({
-        //   email: data.email,
-        //   password: data.password,
-        // });
-        // if (response.success) {
-        //   setUser(response.data);
-        //   router.push("/");
-        // }
+        const response = await signIn({
+          email: data.email,
+          password: data.password,
+        });
+        console.log("Sign In Response:", response);
+
+        if (response) {
+          setUser(response.data);
+          router.push("/");
+        }
+        // router.push("/");
       }
     } catch (error) {
+      console.log(error);
+      console.error("Error during authentication:", error);
     } finally {
     }
 
-    // Simulate an API call
     setLoading(false);
   };
 
@@ -161,11 +183,10 @@ const AuthForm = ({ type }: { type: string }) => {
               )}
 
               <div className="flex flex-col gap-2">
-                {" "}
                 <Button type="submit" className="form-btn" disabled={loading}>
                   {loading ? (
                     <>
-                      <Loader size={20} className="animate-spin" />{" "}
+                      <Loader size={20} className="animate-spin" />
                       &nbsp;Loading...
                     </>
                   ) : type === "sign-in" ? (
